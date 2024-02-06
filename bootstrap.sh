@@ -11,8 +11,10 @@ else
 fi
 
 grep -v '^include' /etc/condor/config.d/01_cmslpc_interactive > .condor_config
+export CONDOR_CONFIG=\${PWD}/.condor_config
 
-export APPTAINER_BINDPATH=/uscmst1b_scratch,/cvmfs,/cvmfs/grid.cern.ch/etc/grid-security/vomses:/etc/vomses,/cvmfs/grid.cern.ch/etc/grid-security:/etc/grid-security
+export APPTAINER_BINDPATH=/usr/local/bin/,/uscmst1b_scratch,/cvmfs,/cvmfs/grid.cern.ch/etc/grid-security/vomses:/etc/vomses,/cvmfs/grid.cern.ch/etc/grid-security:/etc/grid-security
+export APPTAINERENV_PREPEND_PATH="${APPTAINERENV_PREPEND_PATH}${APPTAINERENV_PREPEND_PATH:+:}/usr/local/bin/"
 
 APPTAINER_SHELL=\$(which bash) apptainer exec -B \${PWD}:/srv --pwd /srv \\
   /cvmfs/unpacked.cern.ch/registry.hub.docker.com/\${COFFEA_IMAGE} \\
